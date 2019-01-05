@@ -4,14 +4,14 @@ module.exports = (db) => {
         all: () => {
             let query = `
                 SELECT *
-                FROM meetups
+                FROM questions
             `
             return Promise.resolve(db.any(query));
         },
 
         create: (params) => {
             let query = `
-                INSERT INTO meetups(name, breed, age, sex)
+                INSERT INTO questions(name, breed, age, sex)
                 VALUES($(name), $(breed), $(age), $(sex))
                 RETURNING *
             `
@@ -21,7 +21,7 @@ module.exports = (db) => {
         find: (id) => {
             let query = `
                 SELECT *
-                FROM meetups
+                FROM questions
                 WHERE id = $1
             `
             return Promise.resolve(db.one(query, id))
@@ -29,7 +29,7 @@ module.exports = (db) => {
 
         update: (id, params) => {
             let query = `
-                UPDATE meetups
+                UPDATE questions
                 SET name=$1, breed=$2, age=$3, sex=$4
                 WHERE id= $5
                 RETURNING *
@@ -46,7 +46,7 @@ module.exports = (db) => {
         delete: (id) => {
             let query = `
                DELETE
-               FROM meetups
+               FROM questions
                WHERE id=$1
             `
             return Promise.resolve(db.result(query, id))

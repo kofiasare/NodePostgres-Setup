@@ -1,4 +1,4 @@
-const v1Controllers = require('../controllers/api/v1')
+const v1Controllers = require('../controllers/v1')
 
 module.exports = (express) => {
     const v1 = express.Router()
@@ -17,6 +17,12 @@ module.exports = (express) => {
     v1.get('/users/:userID', v1Controllers.usersController.show);
     v1.put('/users/:userID', v1Controllers.usersController.update);
 
+    // questions
+    v1.get('/questions', v1Controllers.usersController.index);
+    v1.post('/questions', v1Controllers.usersController.create);
+    v1.get('/questions/:userID', v1Controllers.usersController.show);
+    v1.patch('/questions/:questionID/upvote', v1Controllers.questionsController.upvote)
+    v1.patch('/questions/:questionID/downvote', v1Controllers.questionsController.downvote)
 
     return v1;
 }
