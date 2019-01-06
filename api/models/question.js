@@ -50,6 +50,14 @@ module.exports = (db) => {
                WHERE id=$1
             `
             return Promise.resolve(db.result(query, id))
+        },
+
+        upvote: () => {
+
+        },
+
+        downvote: () => {
+
         }
     }
 }

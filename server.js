@@ -3,14 +3,14 @@ const bodyParser = require('body-parser');
 const config = require('config');
 
 // routers
-const { v1 } = require('./api/routers')
+const { apiRouter, v1 } = require('./api/routers')
 
 // api
 const api = express();
 
 // middleware && routers
 api.use(bodyParser.json());
-api.use('/', )
+api.use('/', apiRouter(express))
 api.use("/api/v1", v1(express));
 
 // server

@@ -30,5 +30,17 @@ module.exports = {
         question.delete(req.params.questionID)
             .then(result => res.json({ success: 200, data: result.rowCount }))
             .catch(error => console.log(error))
+    },
+
+    upvote: (req, res) => {
+        question.find(req.params.questionID)
+            .then(question => question.upvote())
+            .catch(error => console.log(error))
+    },
+
+    downvote: (req, res) => {
+        question.find(req.params.questionID)
+            .then(question => console.log(question))
+            .catch(error => console.log(error))
     }
 }
