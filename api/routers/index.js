@@ -1,17 +1,23 @@
-const apiController = require('../controllers')
+const { authController } = require('../controllers')
 
-// sub-routers
-const v1 = require('./v1')
+module.exports = {
 
-// base router
-const apiRouter = (express) => {
-    const baseRouter = express.Router()
-    baseRouter.get('/', (_, res) => res.json(info))
-    return baseRouter
+    // base router
+    baseRouter: (express) => {
+        return express.Router()
+            .get('/', (_, res) => res.json(info))
+    },
+
+    // auth router
+    auth: (express) => {
+        return express.Router()
+            .post('/login', authController.login)
+            .post('/signup', authController.signup)
+    },
+
+    // v1 router
+    v1: require('./v1')
 }
-
-module.exports = { v1, apiRouter }
-
 
 
 let info = {

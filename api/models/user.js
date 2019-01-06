@@ -27,6 +27,15 @@ module.exports = (db) => {
             return Promise.resolve(db.one(query, id))
         },
 
+        findByEmail: (email) => {
+            let query = `
+            SELECT *
+            FROM users
+            WHERE email = $1
+        `
+            return Promise.resolve(db.one(query, email))
+        },
+
         update: (id, params) => {
             let query = `
                 UPDATE users
@@ -50,6 +59,8 @@ module.exports = (db) => {
                WHERE id=$1
             `
             return Promise.resolve(db.result(query, id))
-        }
+        },
+
+        authenticate: (user, password) => {}
     }
 }

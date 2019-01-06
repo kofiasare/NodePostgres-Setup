@@ -1,4 +1,4 @@
-const v1Controllers = require('../controllers/v1')
+const { v1Controllers } = require('../controllers')
 
 module.exports = (express) => {
     const v1 = express.Router()
