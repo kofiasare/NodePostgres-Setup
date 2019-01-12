@@ -4,25 +4,35 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev": "nodemon server.js",
-        "test": "export NODE_ENV=test && mocha || exit 0",
-        "prod": "export NODE_ENV=production && node server.js"
+        "start": "nodemon bin/dev",
+        "test": "export NODE_ENV=test && istanbul cover _mocha || exit 0",
+        "coveralls": "npm run test",
+        "clean": "rm -rf dist",
+        "build": "babel . --ignore node_modules,test,coverage -s -d dist",
+        "prod": "export NODE_ENV=production && npm run clean && npm run build && node bin/prod"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "dependencies": {
-        "bluebird": "^3.5.3",
+        "babel-cli": "^6.26.0",
+        "babel-preset-env": "^1.7.0",
+        "bcrypt": "^3.0.3",
         "body-parser": "^1.18.3",
         "config": "^3.0.1",
         "express": "^4.16.4",
         "express-validator": "^5.3.1",
-        "pg-promise": "^8.5.4"
+        "pg": "^7.7.1"
     },
     "devDependencies": {
         "chai": "^4.2.0",
         "chai-http": "^4.2.1",
+        "coveralls": "^3.0.2",
+        "eslint": "^5.12.0",
+        "eslint-config-airbnb-base": "^13.1.0",
+        "eslint-plugin-import": "^2.14.0",
         "faker": "^4.1.0",
+        "istanbul": "^0.4.5",
         "mocha": "^5.2.0",
         "nodemon": "^1.18.9"
     }

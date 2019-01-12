@@ -4,21 +4,21 @@ CREATE DATABASE questioner;
 \c questioner;
 
 CREATE TABLE users (
-  id             bigint PRIMARY KEY,
+  id             serial PRIMARY KEY,
   firstName       varchar(30) NOT NULL,
   lastName       varchar(30) NOT NULL,
-  otherName      varchar(30) NOT NULL,
-  userName       varchar(30) UNIQUE NOT NULL,
+  otherName      varchar(30),
+  userName       varchar(30) UNIQUE,
   email          varchar(30) UNIQUE NOT NULL,
-  phoneNumber    varchar(15) UNIQUE NOT NULL,
+  phoneNumber    varchar(15) UNIQUE,
   passwordDigest varchar(60) NOT NULL,
   profile         text,
   isAdmin        boolean DEFAULT false,
-  registered     timestamp without time zone NOT NULL
+  registered     timestamp without time zone DEFAULT current_timestamp NOT NULL
 );
 
 CREATE TABLE meetups (
-  id          bigint PRIMARY KEY,
+  id          serial PRIMARY KEY,
   topic       varchar(80) NOT NULL,
   description text,
   location    varchar(50) NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE meetups (
 );
 
 CREATE TABLE questions (
-  id          bigint PRIMARY KEY,
+  id          serial PRIMARY KEY,
   userID      bigint REFERENCES users(id) ON DELETE CASCADE,
   meetupID    bigint REFERENCES meetups(id) ON DELETE CASCADE,
   body        text,
@@ -42,7 +42,7 @@ CREATE TABLE questions (
 );
 
 CREATE TABLE comments (
-  id          bigint PRIMARY KEY,
+  id          serial PRIMARY KEY,
   userID      bigint REFERENCES users(id) ON DELETE CASCADE,
   questionID  bigint REFERENCES questions(id) ON DELETE CASCADE,
   createdOn   timestamp without time zone NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE comments (
 );
 
 CREATE TABLE rsvps (
-  id          bigint  PRIMARY KEY,
+  id          serial  PRIMARY KEY,
   meetupID    bigint  REFERENCES meetups(id) ON DELETE CASCADE,
   userID      bigint  REFERENCES users(id) ON DELETE CASCADE,
   invitees    integer DEFAULT 0

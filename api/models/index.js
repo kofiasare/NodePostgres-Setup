@@ -1,17 +1,27 @@
-const config = require('config');
-const pgp = require('pg-promise')({
-    promiseLib: require('bluebird'),
-})
+import config from 'config';
+import { Client } from 'pg';
+
+// models
+import meetup from './meetup';
+import user from './user';
+import question from './question';
+import comment from './comment';
 
 // connect db
-const db = pgp(config.get('dbConfig'));
+const db = new Client(config.get('dbConfig'));
+db.connect();
 
-// require models
-const meetup = require('./meetup')(db)
-const user = require('./user')(db)
+// initialize models
+const meetupModel = meetup(db);
+const userModel = user(db);
+const questionModel = question(db);
+const commentModel = comment(db);
 
-// add models
-module.exports = {
-    meetup,
-    user
-}
+
+// export models
+export {
+    meetupModel,
+    userModel,
+    questionModel,
+    commentModel,
+};

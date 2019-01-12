@@ -1,26 +1,24 @@
-const { authController } = require('../controllers')
+import v1 from './v1';
+import { authController } from '../controllers';
+import validator from '../helpers/validations';
 
-module.exports = {
+
+const info = {
+    v1: 1,
+    docURL: 'https://postman.com/...',
+};
+
+export default {
 
     // base router
-    baseRouter: (express) => {
-        return express.Router()
-            .get('/', (_, res) => res.json(info))
-    },
+    baseRouter: express => express.Router()
+        .get('/', (_, res) => res.json(info)),
 
     // auth router
-    auth: (express) => {
-        return express.Router()
-            .post('/login', authController.login)
-            .post('/signup', authController.signup)
-    },
+    auth: express => express.Router()
+        .post('/login', authController.login)
+        .post('/signup', validator.createUser, authController.signup),
 
     // v1 router
-    v1: require('./v1')
-}
-
-
-let info = {
-    version: 1,
-    docURL: 'https://postman.com/...'
-}
+    v1,
+};
