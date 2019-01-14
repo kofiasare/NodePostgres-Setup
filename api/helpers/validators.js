@@ -1,8 +1,8 @@
-import { userModel } from '../models';
+import { userModel as user } from '../models';
 
 export default {
 
-    isUniqueEmail: email => userModel.findByEmail(email)
+    isUniqueEmail: email => user.findByEmail(email)
         .then((result) => {
             if (result.rowCount !== 0) { return false; }
             return true;

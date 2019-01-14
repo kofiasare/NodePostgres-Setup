@@ -1,23 +1,25 @@
 import v1 from './v1';
 import { authController } from '../controllers';
-import validator from '../helpers/validations';
+import { validations as validate, middleware } from '../helpers';
 
 
 const info = {
-    v1: 1,
+    base: '/',
+    auth: '/auth',
+    v1: '/api/v1',
     docURL: 'https://postman.com/...',
 };
 
 export default {
 
     // base router
-    baseRouter: express => express.Router()
+    base: express => express.Router()
         .get('/', (_, res) => res.json(info)),
 
     // auth router
     auth: express => express.Router()
-        .post('/login', authController.login)
-        .post('/signup', validator.createUser, authController.signup),
+        .post('/login', validate.userLoggingIn, middleware.reqBodyValidator, authController.login)
+        .post('/signup', validate.userSigningUp, middleware.reqBodyValidator, authController.signup),
 
     // v1 router
     v1,

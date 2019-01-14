@@ -1,3 +1,13 @@
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import config from 'config';
+
+const generateAuthToken = userID => jwt.sign({ userID }, config.get('secret'), config.get('jwt'));
+
+// const verifyAuthToken = (token) => {
+//     jwt.verify(token);
+// };
+
 export default db => ({
 
     all: () => {
@@ -6,18 +16,6 @@ export default db => ({
                 FROM users
             `;
         return Promise.resolve(db.any(query));
-    },
-
-    create: (params) => {
-        const query = {
-            text: `
-                INSERT INTO users(firstname, lastname, email, passworddigest)
-                VALUES($1, $2, $3, $4)
-                RETURNING *
-            `,
-            values: Object.values(params),
-        };
-        return Promise.resolve(db.query(query));
     },
 
     find: (id) => {
@@ -70,5 +68,54 @@ export default db => ({
         return Promise.resolve(db.result(query, id));
     },
 
-    // authenticate: (user, password) => {},
+
+    create(params) {
+        return new Promise((resolve, reject) => {
+            bcrypt.hash(params.password, 10)
+                .then((passwordDigest) => {
+                    const newUserParams = {
+                        firstName: params.firstName,
+                        lastName: params.lastName,
+                        email: params.email,
+                        passwordDigest,
+                    };
+
+                    const query = {
+                        text: `
+                            INSERT INTO users(firstname, lastname, email, passworddigest)
+                            VALUES($1, $2, $3, $4)
+                            RETURNING *
+                        `,
+                        values: Object.values(newUserParams),
+                    };
+
+                    db.query(query)
+                        .then((result) => {
+                            const newUser = result.rows[0];
+                            const token = generateAuthToken(newUser.id);
+                            resolve({ newUser, token });
+                        })
+                        .catch(error => reject(error));
+                });
+        });
+    },
+
+    authenticate(email, password) {
+        return new Promise((resolve, reject) => {
+            this.findByEmail(email)
+                .then(((result) => {
+                    const user = result.rows[0];
+                    if (user === undefined) {
+                        resolve({ authenticated: false });
+                        return;
+                    }
+
+                    const token = generateAuthToken(user.id);
+                    bcrypt.compare(password, user.passworddigest)
+                        .then((authenticated) => { resolve({ authenticated, user, token }); })
+                        .catch(error => reject(error));
+                }))
+                .catch(error => reject(error));
+        });
+    },
 });

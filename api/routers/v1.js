@@ -1,5 +1,5 @@
 import { v1Controllers } from '../controllers';
-import { validations as validator } from '../helpers';
+import { validations as validate } from '../helpers';
 
 const info = {
     version: 1,
@@ -13,7 +13,7 @@ export default (express) => {
 
     // users
     v1.get('/users', v1Controllers.usersController.index);
-    v1.post('/users', validator.createUser, v1Controllers.usersController.create);
+    v1.post('/users', validate.userSigningUp, v1Controllers.usersController.create);
     v1.get('/users/:userID', v1Controllers.usersController.show);
     v1.put('/users/:userID', v1Controllers.usersController.update);
 

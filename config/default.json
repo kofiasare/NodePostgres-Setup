@@ -1,10 +1,15 @@
 {
     "port": 8080,
-    "dbConfig": {
+    "secret": "kofi",
+    "db": {
         "host": "localhost",
         "port": 5432,
         "database": "questioner",
         "user": "postgres",
         "password": "tr#sted"
+    },
+    "jwt": {
+        "expiresIn": "24h",
+        "algorithm": "HS256"
     }
 }

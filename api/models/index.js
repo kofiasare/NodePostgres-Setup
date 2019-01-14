@@ -8,7 +8,7 @@ import question from './question';
 import comment from './comment';
 
 // connect db
-const db = new Client(config.get('dbConfig'));
+const db = new Client(config.get('db'));
 db.connect();
 
 // initialize models
