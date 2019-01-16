@@ -13,4 +13,6 @@ export default {
         return true;
     },
 
+    dateIsBefore: (date1, date2) => new Date(date1) < new Date(date2),
+    dateIsAfter: (date1, date2) => new Date(date1) > new Date(date2),
 };

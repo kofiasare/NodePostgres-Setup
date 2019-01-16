@@ -9,21 +9,40 @@ export default db => ({
     },
 
     create: (params) => {
-        const query = `
-                INSERT INTO meetups(name, breed, age, sex)
-                VALUES($(name), $(breed), $(age), $(sex))
+        const newMeetupParams = {
+            topic: params.topic,
+            description: params.description,
+            location: params.location,
+            city: params.city,
+            image: params.image,
+            startTime: params.startTime,
+            endTime: params.endTime,
+            userID: params.userID,
+        };
+
+        const query = {
+            text: `
+                INSERT INTO meetups(topic, description, location, city, image, starttime, endtime, userid)
+                VALUES($1, $2, $3, $4, $5, $6, $7, $8)
                 RETURNING *
-            `;
-        return Promise.resolve(db.one(query, params));
+            `,
+            values: Object.values(newMeetupParams),
+        };
+
+        return Promise.resolve(db.query(query));
     },
 
     find: (id) => {
-        const query = `
+        const query = {
+            text: `
                 SELECT *
                 FROM meetups
-                WHERE id = $1
-            `;
-        return Promise.resolve(db.one(query, id));
+                WHERE id=$1
+            `,
+            values: [id],
+        };
+
+        return Promise.resolve(db.query(query));
     },
 
     update: (id, params) => {
@@ -43,11 +62,15 @@ export default db => ({
     },
 
     delete: (id) => {
-        const query = `
-               DELETE
-               FROM meetups
-               WHERE id=$1
-            `;
-        return Promise.resolve(db.result(query, id));
+        const query = {
+            text: `
+                DELETE
+                FROM meetups
+                WHERE id=$1
+            `,
+            values: [id],
+        };
+
+        return Promise.resolve(db.query(query));
     },
 });

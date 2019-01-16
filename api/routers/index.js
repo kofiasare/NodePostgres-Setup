@@ -19,7 +19,8 @@ export default {
     // auth router
     auth: express => express.Router()
         .post('/login', validate.userLoggingIn, middleware.reqBodyValidator, authController.login)
-        .post('/signup', validate.userSigningUp, middleware.reqBodyValidator, authController.signup),
+        .post('/signup', validate.userSigningUp, middleware.reqBodyValidator, authController.signup)
+        .delete('/logout', authController.logout),
 
     // v1 router
     v1,

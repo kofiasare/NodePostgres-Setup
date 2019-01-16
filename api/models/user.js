@@ -2,7 +2,9 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import config from 'config';
 
-const generateAuthToken = userID => jwt.sign({ userID }, config.get('secret'), config.get('jwt'));
+const generateAuthToken = userID => jwt.sign({ userID },
+    config.get('secret'),
+    config.get('jwt'));
 
 // const verifyAuthToken = (token) => {
 //     jwt.verify(token);

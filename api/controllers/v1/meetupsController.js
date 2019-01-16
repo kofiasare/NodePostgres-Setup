@@ -4,19 +4,19 @@ export default {
 
     index: (_, res) => {
         meetup.all()
-            .then(meetups => res.json({ success: 200, data: meetups.rows }))
+            .then(meetups => res.json({ status: 200, data: meetups.rows }))
             .catch(error => console.log(error));
     },
 
     create: (req, res) => {
         meetup.create(req.body)
-            .then(newMeetup => res.status(201).json({ success: 201, data: newMeetup }))
+            .then(result => res.status(201).json({ status: 201, data: result.rows[0] }))
             .catch(error => console.log(error));
     },
 
     show: (req, res) => {
         meetup.find(req.params.meetupID)
-            .then(_meetup => res.json({ success: 200, data: _meetup }))
+            .then(_meetup => res.json({ status: 200, data: _meetup.rows[0] }))
             .catch(error => console.log(error));
     },
 
@@ -28,7 +28,7 @@ export default {
 
     delete: (req, res) => {
         meetup.delete(req.params.meetupID)
-            .then(result => res.json({ success: 200, data: result.rowCount }))
+            .then(res.status(204).end())
             .catch(error => console.log(error));
     },
 };

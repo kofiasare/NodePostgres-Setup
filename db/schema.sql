@@ -20,7 +20,7 @@ CREATE TABLE users (
 CREATE TABLE meetups (
   id          serial PRIMARY KEY,
   topic       varchar(80) NOT NULL,
-  description text,
+  description text NOT NULL,
   location    varchar(50) NOT NULL,
   city        varchar(40) NOT NULL,
   image       varchar,
@@ -28,7 +28,7 @@ CREATE TABLE meetups (
   endTime     timestamp without time zone NOT NULL,
   userID      bigint REFERENCES users(id) ON DELETE CASCADE,
   done        boolean DEFAULT false,
-  createdOn   timestamp without time zone NOT NULL
+  createdOn   timestamp without time zone DEFAULT current_timestamp NOT NULL
 );
 
 CREATE TABLE questions (

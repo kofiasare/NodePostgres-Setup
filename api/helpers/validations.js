@@ -5,6 +5,7 @@ import validators from './validators';
 
 export default {
 
+    // users
     userSigningUp: [
         check('firstName')
         .not().isEmpty().withMessage('firstName is required')
@@ -33,9 +34,37 @@ export default {
 
     userLoggingIn: [
         check('email')
-        .not().isEmpty().withMessage('email is required'),
+        .not().isEmpty().withMessage('email adress is required')
+        .isEmail().withMessage('Invalid email adddress'),
 
         check('password')
         .not().isEmpty().withMessage('password is required'),
+    ],
+
+    // meetups
+    creatingMeetup: [
+        check('userID')
+        .not().isEmpty().withMessage('userID is required'),
+
+        check('topic')
+        .not().isEmpty().withMessage('topic is required'),
+
+        check('location')
+        .not().isEmpty().withMessage('meetup location is required'),
+
+        check('city')
+        .not().isEmpty().withMessage('meetup city is required'),
+
+        check('startTime')
+        .not().isEmpty().withMessage('start time is required')
+        .custom((startTime, { req }) => validators.dateIsBefore(startTime, req.body.endTime)).withMessage('startTime should be before endTime'),
+
+        check('endTime')
+        .not().isEmpty().withMessage('end time is required')
+        .custom((endTime, { req }) => validators.dateIsAfter(endTime, req.body.startTime)).withMessage('endTime should be after StartTime'),
+
+        check('description')
+        .not().isEmpty().withMessage('Give a brief description of meetup')
+        .isLength({ min: 50 }).withMessage('Meeetup description should a minimum of 50 charaters'),
     ],
 };
