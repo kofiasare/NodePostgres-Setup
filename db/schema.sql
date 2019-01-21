@@ -33,12 +33,12 @@ CREATE TABLE meetups (
 
 CREATE TABLE questions (
   id          serial PRIMARY KEY,
-  userID      bigint REFERENCES users(id) ON DELETE CASCADE,
-  meetupID    bigint REFERENCES meetups(id) ON DELETE CASCADE,
   body        text,
   upvotes     integer DEFAULT 0 NOT NULL,
   downvotes   integer DEFAULT 0 NOT NULL,
-  createdOn   timestamp without time zone NOT NULL
+  createdOn   timestamp without time zone DEFAULT current_timestamp NOT NULL,
+  userID      bigint REFERENCES users(id) ON DELETE CASCADE,
+  meetupID    bigint REFERENCES meetups(id) ON DELETE CASCADE
 );
 
 CREATE TABLE comments (

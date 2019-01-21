@@ -17,16 +17,20 @@ export default db => ({
                 SELECT *
                 FROM users
             `;
-        return Promise.resolve(db.any(query));
+        return Promise.resolve(db.query(query));
     },
 
     find: (id) => {
-        const query = `
+        const query = {
+            text: `
                 SELECT *
                 FROM users
-                WHERE id = $1
-            `;
-        return Promise.resolve(db.one(query, id));
+                WHERE id=$1
+            `,
+            values: [id],
+        };
+
+        return Promise.resolve(db.query(query));
     },
 
     findByEmail: (email) => {

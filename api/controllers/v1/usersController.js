@@ -4,19 +4,13 @@ export default {
 
     index: (_, res) => {
         user.all()
-            .then(users => res.json({ success: 200, data: users }))
-            .catch((error) => { console.log(error); });
-    },
-
-    create: (req, res) => {
-        user.create(req.body)
-            .then(newUser => res.status(201).json({ success: 201, data: newUser }))
+            .then(users => res.json({ status: 200, data: users.rows }))
             .catch(error => console.log(error));
     },
 
     show: (req, res) => {
         user.find(req.params.userID)
-            .then(_user => res.json({ success: 200, data: _user }))
+            .then(_user => res.json({ status: 200, data: _user.rows[0] }))
             .catch(error => console.log(error));
     },
 

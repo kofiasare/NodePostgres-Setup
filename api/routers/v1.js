@@ -13,8 +13,7 @@ export default (express) => {
 
     // users
     v1.get('/users', v1Controllers.usersController.index);
-    v1.post('/users', validate.userSigningUp, middleware.reqBodyValidator, v1Controllers.usersController.create);
-    v1.get('/users/:userID', v1Controllers.usersController.show);
+    v1.get('/users/:userID', middleware.resourceExist('user'), v1Controllers.usersController.show);
     v1.put('/users/:userID', v1Controllers.usersController.update);
 
     // meetups
@@ -25,9 +24,9 @@ export default (express) => {
     v1.delete('/meetups/:meetupID', middleware.resourceExist('meetup'), v1Controllers.meetupsController.delete);
 
     // questions
-    v1.get('/questions', v1Controllers.usersController.index);
-    v1.post('/questions', v1Controllers.usersController.create);
-    v1.get('/questions/:userID', v1Controllers.usersController.show);
+    v1.get('/questions', v1Controllers.questionsController.index);
+    v1.post('/questions', v1Controllers.questionsController.create);
+    v1.get('/questions/:userID', v1Controllers.questionsController.show);
     v1.patch('/questions/:questionID/upvote', v1Controllers.questionsController.upvote);
     v1.patch('/questions/:questionID/downvote', v1Controllers.questionsController.downvote);
 

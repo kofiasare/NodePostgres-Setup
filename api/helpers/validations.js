@@ -67,4 +67,7 @@ export default {
         .not().isEmpty().withMessage('Give a brief description of meetup')
         .isLength({ min: 50 }).withMessage('Meeetup description should a minimum of 50 charaters'),
     ],
+
+    // questions
+
 };
